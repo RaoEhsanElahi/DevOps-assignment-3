@@ -61,8 +61,8 @@ jobs:
           secure: true
           password: ${{secrets.MAIL_PASSWORD}}
           subject: GitHub Action Success
-          to: ${{secrets.MAIL_NAME}}
-          from: ${{secrets.MAIL_NAME}}
+          to: ${{secrets.EMAIL}}
+          from: ${{secrets.EMAIL}}
           body: >
             Workflow of ${{github.repository}} initiated by ${{github.actor}} was
             successfully executed.
@@ -78,8 +78,8 @@ jobs:
           secure: true
           password: ${{secrets.MAIL_PASSWORD}}
           subject: GitHub Action Failure
-          to: ${{secrets.MAIL_NAME}}
-          from: ${{secrets.MAIL_NAME}}
+          to: ${{secrets.EMAIL}}
+          from: ${{secrets.EMAIL}}
           body: >
             Workflow of ${{github.repository}} initiated by ${{github.actor}} failed,
             kindly check the workflow logs!
