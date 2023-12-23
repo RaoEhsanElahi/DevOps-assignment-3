@@ -55,29 +55,26 @@ jobs:
         if: success()
         uses: dawidd6/action-send-mail@v3
         with:
-          connection_url: ${{secrets.MAIL_CONNECTION}}
           server_address: smtp.gmail.com
           server_port: 465
           secure: true
           subject: GitHub Action Success
-          to: ${{secrets.EMAIL}}
-          from: ${{secrets.EMAIL}}
-          body: >
-            Workflow of ${{github.repository}} initiated by ${{github.actor}} was
-            successfully executed.
-
+          to: ${{ secrets.EMAIL }}
+          from: ${{ secrets.EMAIL }}
+          body: |
+            Workflow of ${{ github.repository }} initiated by ${{ github.actor }} was successfully executed.
             View the changes on the server http://${{ secrets.IP }}/
+
       - name: Notify on Failure
         if: failure()
         uses: dawidd6/action-send-mail@v3
         with:
-          connection_url: ${{secrets.MAIL_CONNECTION}}
           server_address: smtp.gmail.com
           server_port: 465
           secure: true
           subject: GitHub Action Failure
-          to: ${{secrets.EMAIL}}
-          from: ${{secrets.EMAIL}}
-          body: >
-            Workflow of ${{github.repository}} initiated by ${{github.actor}} failed,
+          to: ${{ secrets.EMAIL }}
+          from: ${{ secrets.EMAIL }}
+          body: |
+            Workflow of ${{ github.repository }} initiated by ${{ github.actor }} failed,
             kindly check the workflow logs!
