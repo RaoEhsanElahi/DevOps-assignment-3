@@ -58,10 +58,11 @@ jobs:
           server_address: smtp.gmail.com
           server_port: 465
           secure: true
+          username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: GitHub Action Success
-          to: raoehsan7755
-          from: raoehsan7755
+          to: raoehsan7755@gmail.com
+          from: RaoEhsanElahi
           body: >
             Workflow of ${{github.repository}} initiated by ${{github.actor}} was
             successfully executed.
@@ -74,10 +75,11 @@ jobs:
           server_address: smtp.gmail.com
           server_port: 465
           secure: true
+          username: ${{secrets.MAIL_USERNAME}}
           password: ${{secrets.MAIL_PASSWORD}}
           subject: GitHub Action Failure
-          to: raoehsan7755
-          from: raoehsan7755
+          to: raoehsan7755@gmail.com
+          from: RaoEhsanElahi
           body: >
             Workflow of ${{github.repository}} initiated by ${{github.actor}} failed,
             kindly check the workflow logs!
