@@ -34,8 +34,7 @@ jobs:
         run: |
           cd react_app
           npx eslint src/sum.js src/cartview.js src/shippingOptions.js
-      - name: Deploy and Install Dependencies
-        if: always()
+      - name: Installing Node Modules
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.IP2 }}
