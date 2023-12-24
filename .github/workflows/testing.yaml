@@ -42,7 +42,7 @@ jobs:
           key: ${{ secrets.SSH_TEST }}
           port: 22
           script: |
-            cd react_app
+            cd /home/ubuntu/react_app
             npm install
       - name: Notify on Success
         if: success()
