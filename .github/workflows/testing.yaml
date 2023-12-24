@@ -1,0 +1,79 @@
+---
+name: Deploy to AWS EC2 for Testing
+run-name: ${{github.actor}} initiated the workflow - Deployment to AWS Testing
+on:
+  pull_request:
+    branches:
+      - master
+  workflow_dispatch:
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+      - name: Setup Node.js Environment
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - name: Verify Node.js Installation
+        run: node --version
+      - name: Install Dependencies
+        run: |
+          cd react_app
+          npm install
+      - name: Build Project
+        run: |
+          cd react_app
+          npm run build-react
+      - name: Run Unit Tests
+        run: |
+          cd react_app
+          npm run test-react
+      - name: Lint Codebase
+        run: |
+          cd react_app
+          npx eslint src/sum.js src/cartview.js src/shippingOptions.js
+      - name: Deploy and Install Dependencies
+        if: always()
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.IP2 }}
+          username: ubuntu
+          key: ${{ secrets.SSH_TEST }}
+          port: 22
+          script: |
+            cd react_app
+            npm install  # Install new dependencies
+      - name: Notify on Success
+        if: success()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: GitHub Action Success
+          to: raoehsan7755@gmail.com
+          from: RaoEhsanElahi
+          body: >
+            Workflow of ${{github.repository}} initiated by ${{github.actor}} was
+            successfully executed.
+
+            View the changes on the server http://${{ secrets.IP2 }}/
+      - name: Notify on Failure
+        if: failure()
+        uses: dawidd6/action-send-mail@v3
+        with:
+          server_address: smtp.gmail.com
+          server_port: 465
+          secure: true
+          username: ${{secrets.MAIL_USERNAME}}
+          password: ${{secrets.MAIL_PASSWORD}}
+          subject: GitHub Action Failure
+          to: raoehsan7755@gmail.com
+          from: RaoEhsanElahi
+          body: >
+            Workflow of ${{github.repository}} initiated by ${{github.actor}} failed,
+            kindly check the workflow logs!
